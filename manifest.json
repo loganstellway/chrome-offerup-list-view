@@ -1,0 +1,26 @@
+{
+    "name": "OfferUp - List View",
+    "version": "1.0",
+    "description": "Adds a list view to OfferUp listing pages.",
+    "permissions": ["activeTab", "declarativeContent", "storage"],
+    "background": {
+        "scripts": ["background.js"],
+        "persistent": false
+    },
+    "page_action": {
+        "default_popup": "popup.html",
+        "default_icon": {
+            "16": "images/offerup-list-view-16.png",
+            "32": "images/offerup-list-view-32.png",
+            "48": "images/offerup-list-view-48.png",
+            "128": "images/offerup-list-view-128.png"
+        }
+    },
+    "icons": {
+        "16": "images/offerup-list-view-16.png",
+        "32": "images/offerup-list-view-32.png",
+        "48": "images/offerup-list-view-48.png",
+        "128": "images/offerup-list-view-128.png"
+    },
+    "manifest_version": 2
+}

@@ -1,0 +1,49 @@
+* {
+    box-sizing: border-box;
+    font-family: Lato, "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+html,
+body {
+    margin: 0;
+    padding: 0;
+    background: none;
+}
+.wrapper {
+    padding: 15px;
+}
+.instructions {
+    margin: 0;
+    white-space: nowrap;
+}
+.input-control {
+    width: 0;
+    height: 0;
+    overflow: hidden;
+    visibility: hidden;
+}
+.input-label {
+    display: flex;
+    width: 40px;
+    padding: 2px;
+    cursor: pointer;
+    border-radius: 20px;
+    border: 2px solid #666;
+    transition: all 0.3s;
+}
+.input-label:after {
+    content: "";
+    width: 16px;
+    height: 16px;
+    vertical-align: top;
+    border-radius: 16px;
+    display: inline-block;
+    background-color: #666;
+    transition: all 0.3s;
+}
+.input-control:checked + .input-label {
+    border-color: #00ab80;
+}
+.input-control:checked + .input-label:after {
+    margin-left: auto;
+    background-color: #00ab80;
+}
