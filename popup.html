@@ -1,14 +1,21 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <link rel="stylesheet" href="popup.css" />
+        <link rel="stylesheet" href="./popup.css" />
     </head>
     <body>
         <div class="wrapper">
-            <p class="instructions">Enable list view?</p>
-            <input type="checkbox" id="action" class="input-control" />
-            <label for="action" class="input-label"></label>
+            <div class="form-group form-group__toggle">
+                <span class="input-label">Enable list view?</span>
+                <input type="checkbox" id="list-view" class="input-control" />
+                <label for="list-view" class="input-ui"></label>
+            </div>
+            <div class="form-group form-group__toggle">
+                <span class="input-label">Hide advertisements?</span>
+                <input type="checkbox" id="hide-ads" class="input-control" />
+                <label for="hide-ads" class="input-ui"></label>
+            </div>
         </div>
-        <script src="popup.js"></script>
+        <script src="./popup.js"></script>
     </body>
 </html>

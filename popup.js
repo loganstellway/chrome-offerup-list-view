@@ -1,14 +1,4 @@
 var s = {
-    listView: 0,
-    action: document.getElementById("action"),
-    /**
-     * CSS necessary to create list view
-     */
-    css:
-        "[id^=db-item-list] > div {width: 100%;flex: 0 0 100%;}" +
-        "[id^=db-item-list] > div > a {width: 100% !important;flex: 0 0 100% !important;}" +
-        "[id^=db-item-list] > div > a > div {display: flex;}" +
-        "[id^=db-item-list] > div > a > div > div:first-child {width: 198px;}",
     /**
      * Execute specified code
      *
@@ -26,55 +16,86 @@ var s = {
     /**
      * Remove list view
      */
-    removeListView: function () {
+    removeElements: function (selector) {
         var self = this;
         chrome.storage.sync.set({ listView: 0 }, function () {
             self.execute(
-                "var style = document.getElementById('offerup-list-view'); if (style) style.parentNode.removeChild(style);"
+                "(function(els) {for (var i in els) {if(els[i] instanceof HTMLElement){els[i].parentNode.removeChild(els[i])};}})(document.querySelectorAll('" +
+                    selector +
+                    "'));"
             );
         });
     },
     /**
      * Set list view
      */
-    setListView: function () {
+    addStyles: function (css, elementClass) {
         var self = this;
         chrome.storage.sync.set({ listView: 1 }, function () {
             self.execute(
-                "var style = document.createElement('style'); style.id = 'offerup-list-view'; style.type = 'text/css'; style.appendChild(document.createTextNode('" +
-                    self.css +
+                "var style = document.createElement('style'); style.classList.add('" +
+                    elementClass +
+                    "'); style.type = 'text/css'; style.appendChild(document.createTextNode('" +
+                    css +
                     "')); document.head.appendChild(style);"
             );
         });
     },
     /**
-     * Click action
+     * Initialize list view functionality
      */
-    click: function () {
-        if (this.action.checked === true) {
-            this.setListView();
-        } else {
-            this.removeListView();
-        }
+    initListView: function (el) {
+        var self = this;
+        chrome.storage.sync.get("listView", function (data) {
+            console.log("Initializing listView", data);
+            el.checked = data.listView ? true : false;
+            el.onclick = function () {
+                if (el.checked === true) {
+                    self.addStyles(
+                        "[id^=db-item-list] > div {width: 100%;flex: 0 0 100%;}" +
+                            "[id^=db-item-list] > div > a {width: 100% !important;flex: 0 0 100% !important;}" +
+                            "[id^=db-item-list] > div > a > div {display: flex;}" +
+                            "[id^=db-item-list] > div > a > div > div:first-child {width: 198px;}",
+                        "offerup-list-view"
+                    );
+                } else {
+                    self.removeElements(".offerup-list-view");
+                }
+            };
+        });
+    },
+    /**
+     * Initialize hide advertisements
+     */
+    initHideAds: function (el) {
+        var self = this;
+
+        chrome.storage.sync.get("hideAds", function (data) {
+            console.log("Initializing hideAds", data);
+            el.checked = data.hideAds ? true : false;
+            el.onclick = function () {
+                if (el.checked === true) {
+                    self.addStyles(
+                        '[id^=db-item-list] > div > a:not([href^="/"]) {display: none !important;}',
+                        "offerup-hide-ads"
+                    );
+                } else {
+                    self.removeElements(".offerup-hide-ads");
+                }
+            };
+        });
     },
     /**
      * Initialize
      */
     init: function () {
         // Bind scope
-        var self = this;
         this.execute = this.execute.bind(this);
-        this.removeListView = this.removeListView.bind(this);
-        this.setListView = this.setListView.bind(this);
-        this.click = this.click.bind(this);
-
-        // Bind click event
-        this.action.onclick = this.click;
-
-        // Get current value
-        chrome.storage.sync.get("listView", function (data) {
-            self.action.checked = data.listView ? true : false;
-        });
+        this.removeElements = this.removeElements.bind(this);
+        this.addStyles = this.addStyles.bind(this);
+        // Initialize events
+        this.initListView(document.getElementById("list-view"));
+        this.initHideAds(document.getElementById("hide-ads"));
     },
 };
 

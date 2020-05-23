@@ -5,7 +5,7 @@
 "use strict";
 
 chrome.runtime.onInstalled.addListener(function () {
-    chrome.storage.sync.set({ listView: 0 }, function () {
+    chrome.storage.sync.set({ listView: 0, hideAds: 0 }, function () {
         console.log("List view variable has been initialized.");
     });
     chrome.declarativeContent.onPageChanged.removeRules(undefined, function () {

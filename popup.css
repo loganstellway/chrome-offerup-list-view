@@ -1,3 +1,4 @@
+/** Global */
 * {
     box-sizing: border-box;
     font-family: Lato, "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -11,39 +12,48 @@ body {
 .wrapper {
     padding: 15px;
 }
-.instructions {
-    margin: 0;
-    white-space: nowrap;
+
+/** Forms */
+.form-group {
+    display: flex;
+    padding-bottom: 15px;
+    align-items: center;
+    justify-content: space-between;
 }
-.input-control {
+.form-group__toggle .input-label {
+    margin: 0;
+    display: block;
+    white-space: nowrap;
+    text-transform: uppercase;
+}
+.form-group__toggle .input-control {
     width: 0;
     height: 0;
     overflow: hidden;
     visibility: hidden;
 }
-.input-label {
-    display: flex;
-    width: 40px;
+
+/** Toggle */
+.form-group__toggle .input-ui {
     padding: 2px;
+    display: block;
     cursor: pointer;
-    border-radius: 20px;
+    border-radius: 50%;
+    transition: border 0.3s;
     border: 2px solid #666;
-    transition: all 0.3s;
 }
-.input-label:after {
+.form-group__toggle .input-ui:after {
     content: "";
-    width: 16px;
-    height: 16px;
-    vertical-align: top;
-    border-radius: 16px;
-    display: inline-block;
-    background-color: #666;
-    transition: all 0.3s;
+    width: 12px;
+    height: 12px;
+    display: block;
+    border-radius: 50%;
+    background-color: transparent;
+    transition: background-color 0.3s;
 }
-.input-control:checked + .input-label {
+.form-group__toggle input:checked ~ .input-ui {
     border-color: #00ab80;
 }
-.input-control:checked + .input-label:after {
-    margin-left: auto;
+.form-group__toggle input:checked ~ .input-ui:after {
     background-color: #00ab80;
 }
